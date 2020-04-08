@@ -17,11 +17,11 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', err =>{
   throw new Error (err);
 });
-const checkLocation = require('./yelp.js');
+const checkLocation = require('./location.js');
 const weatherHandler = require('./weather.js');
 const trailsHandler = require('./trails.js');
 const moviesHandler = require('./movies.js');
-const yelpHandler = require('./yelp.js');
+// const yelpHandler = require('./yelp.js');
 const errorFunc = require('./handler.js');
 
 
@@ -30,7 +30,7 @@ app.get('/location', checkLocation);
 app.get('/weather', weatherHandler);
 app.get('/trails',trailsHandler);
 app.get('/movies',moviesHandler);
-app.get('/yelp',yelpHandler);
+// app.get('/yelp',yelpHandler);
 
 
 app.use('*', errorFunc.notFoundHandler);
@@ -40,7 +40,7 @@ client
   .connect()
   .then(() => {
     app.listen(PORT, () =>
-      console.log(`my server is up and running on port ${PORT}`)
+      console.log(`RAGHAD server is up and running on port ${PORT}`)
     );
   })
   .catch((err) => {
