@@ -18,19 +18,19 @@ const client = new pg.Client(process.env.DATABASE_URL);
 //   throw new Error (err);
 // });
 const checkLocation = require('./location.js');
-// const weatherHandler = require('./weather.js');
-// const trailsHandler = require('./trails.js');
-// const moviesHandler = require('./movies.js');
-// const yelpHandler = require('./yelp.js');
+const weatherHandler = require('./weather.js');
+const trailsHandler = require('./trails.js');
+const moviesHandler = require('./movies.js');
+const yelpHandler = require('./yelp.js');
 const errorFunc = require('./handler.js');
 
 
 // Route Definitions
 app.get('/location', checkLocation);
-// app.get('/weather', weatherHandler);
-// app.get('/trails',trailsHandler);
-// app.get('/movies',moviesHandler);
-// app.get('/yelp',yelpHandler);
+app.get('/weather', weatherHandler);
+app.get('/trails',trailsHandler);
+app.get('/movies',moviesHandler);
+app.get('/yelp',yelpHandler);
 
 client
   .connect()
@@ -43,4 +43,4 @@ client
     throw new Error(`startup error ${err}`);
   });
 // app.use('*', errorFunc.notFoundHandler);
-// app.use(errorFunc.errorHandler);
+app.use(errorFunc.errorHandler);
