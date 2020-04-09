@@ -1,6 +1,7 @@
 'use strict';
 
 const superagent = require('superagent');
+const errorFunc = require('./handler.js');
 
 function moviesHandler (request,response){
   let city = request.query.search_query;
@@ -20,7 +21,7 @@ function getMovieData(city){
       })
       return moviesArray;
     })
-    // .catch((err) => errorHandler(err));
+    .catch((err) => errorFunc.errorHandler(err));
 }
 function Movies(value){
   this.title = value.title;
