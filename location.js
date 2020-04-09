@@ -2,6 +2,7 @@
 
 const superagent = require('superagent');
 const pg = require('pg');
+const errorFunc = require('./handler.js');
 
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', err =>{
@@ -10,6 +11,7 @@ client.on('error', err =>{
 
 function checkLocation (request,response){
   const city = request.query.city;
+  console.log('HI',city);
   let sqlCheck = `SELECT * FROM locations WHERE search_query = '${city}';`;
   client.query(sqlCheck)
     .then(result => {
@@ -29,7 +31,7 @@ function checkLocation (request,response){
               .then(result2 => {
                 response.status(200).json(result2.rows[0]);
               })
-            //   .catch (error => errorHandler(error));
+              .catch (error => errorFunc.errorHandler(error));
           })
       }
     })
@@ -39,9 +41,12 @@ function checkLocation (request,response){
 function getLocation(city){
   let key = process.env.GEOCODE_API_KEY;
   const url = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${city}&format=json`;
+  console.log('HI',url);
+
   return superagent.get(url)
     .then(geoData => {
       const locationData = new Location(city, geoData.body);
+      console.log('HI',locationData);
       return locationData;
     })
 }

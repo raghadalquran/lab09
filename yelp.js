@@ -1,6 +1,7 @@
 // 'use strict';
 
 // const superagent = require('superagent');
+//const errorFunc = require('./handler.js');
 
 
 // function yelpHandler(request,response){
@@ -22,7 +23,7 @@
 //         })
 //         return yelpArray;
 //       })
-//     //   .catch((err) => errorHandler(err));
+//     //   .catch((err) => errorFunc.errorHandler(err));
 //   }
 //   function Yelp(value){
 //     this.name = value.name;

@@ -2,6 +2,7 @@
 
 
 const superagent = require('superagent');
+const errorFunc = require('./handler.js');
 
 
 function weatherHandler(request, response) {
@@ -16,7 +17,7 @@ function weatherHandler(request, response) {
       });
       response.status(200).json(weatherSummaries);
     })
-    // .catch((err) => errorHandler(err, request, response));
+    .catch((err) => errorFunc.errorHandler(err, request, response));
 }
 
 function Weather(day) {
