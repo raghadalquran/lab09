@@ -1,19 +1,13 @@
 'use strict';
 
-const superagent = require('superagent');
-const pg = require('pg');
+const dependances = require('./dep.js');
 const errorFunc = require('./handler.js');
-
-const client = new pg.Client(process.env.DATABASE_URL);
-client.on('error', err =>{
-  throw new Error (err);
-});
 
 function checkLocation (request,response){
   const city = request.query.city;
   console.log('HI',city);
   let sqlCheck = `SELECT * FROM locations WHERE search_query = '${city}';`;
-  client.query(sqlCheck)
+  dependances.client.query(sqlCheck)
     .then(result => {
       if(result.rows.length > 0){
         response.status(200).json(result.rows[0]);
@@ -27,7 +21,7 @@ function checkLocation (request,response){
             let lon = locationData.longitude;
             let safeValues = [myCity,format,lat,lon];
             let SQL = 'INSERT INTO locations (search_query,formatted_query,latitude,longitude) VALUES ($1,$2,$3,$4);';
-            return client.query(SQL,safeValues)
+            return dependances.client.query(SQL,safeValues)
               .then(result2 => {
                 response.status(200).json(result2.rows[0]);
               })
@@ -43,7 +37,7 @@ function getLocation(city){
   const url = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${city}&format=json`;
   console.log('HI',url);
 
-  return superagent.get(url)
+  return dependances.superagent.get(url)
     .then(geoData => {
       const locationData = new Location(city, geoData.body);
       console.log('HI',locationData);

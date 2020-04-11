@@ -1,13 +1,12 @@
 'use strict';
 
-
-const superagent = require('superagent');
 const errorFunc = require('./handler.js');
+const dependances = require('./dep.js');
 
 
 function weatherHandler(request, response) {
   let key2 = process.env.WEATHER_API_KEY;
-  superagent(
+  dependances.superagent(
     `https://api.weatherbit.io/v2.0/forecast/daily?city=${request.query.search_query}&key=${key2}`
   )
     .then((weatherRes) => {
