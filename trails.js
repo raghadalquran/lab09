@@ -1,7 +1,6 @@
 'use strict';
 
-const superagent = require('superagent');
-
+const dependances = require('./dep.js');
 
 function trailsHandler(request,response){
   const lat = request.query.latitude;
@@ -15,7 +14,7 @@ function trailsHandler(request,response){
 function getTrailData(lat,lon){
   const url =`https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${lon}&maxDistance=500&key=${process.env.TRAIL_API_KEY}`;
 
-  return superagent.get(url)
+  return dependances.superagent.get(url)
     .then((trailData)=>{
       let trailsSummaries = trailData.body.trails.map((val)=>{
         return new Trails (val);

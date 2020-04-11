@@ -1,7 +1,7 @@
 'use strict';
 
-const superagent = require('superagent');
 const errorFunc = require('./handler.js');
+const dependances = require('./dep.js');
 
 function moviesHandler (request,response){
   let city = request.query.search_query;
@@ -14,7 +14,7 @@ function getMovieData(city){
   const key = process.env.MOVIE_API_KEY;
   let url = `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${city}`;
   console.log(url);
-  return superagent.get(url)
+  return dependances.superagent.get(url)
     .then(moviesData =>{
       let moviesArray = moviesData.body.results.map((value) => {
         return new Movies(value);
